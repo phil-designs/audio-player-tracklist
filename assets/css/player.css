@@ -1,0 +1,483 @@
+/* ==========================================================================
+   Circular Audio Player — Frontend Styles
+   ========================================================================== */
+
+/* ------------------------------------------------------------------
+   Shared wrapper
+   ------------------------------------------------------------------ */
+.cap-player-wrapper {
+    display:     block;
+    width:       100%;
+    margin:      0 0 24px;
+    font-family: inherit;
+    color:       inherit;
+}
+
+/* ------------------------------------------------------------------
+   Shared: icon buttons
+   ------------------------------------------------------------------ */
+.cap-btn {
+    display:         inline-flex;
+    align-items:     center;
+    justify-content: center;
+    background:      none;
+    border:          none;
+    padding:         6px;
+    cursor:          pointer;
+    color:           inherit;
+    opacity:         0.75;
+    transition:      opacity 0.15s;
+    border-radius:   4px;
+    line-height:     1;
+}
+
+.cap-btn:hover,
+.cap-btn:focus-visible {
+    opacity: 1;
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+.cap-btn svg {
+    width:   20px;
+    height:  20px;
+    display: block;
+}
+
+/* Active/on state for shuffle and loop toggles. */
+.cap-btn-active {
+    opacity: 1;
+    color:   #a78bfa;
+}
+
+/* ------------------------------------------------------------------
+   Volume control — button + popup slider
+   ------------------------------------------------------------------ */
+.cap-volume-wrap {
+    position: relative;
+    display:  inline-flex;
+    align-items: center;
+}
+
+/* Popup panel that appears above the button. */
+.cap-volume-slider-wrap {
+    position:       absolute;
+    bottom:         calc( 100% + 6px );
+    left:           50%;
+    transform:      translateX( -50% );
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    padding:        10px 8px;
+    background:     rgba( 20, 20, 20, 0.85 );
+    border-radius:  8px;
+    backdrop-filter: blur( 4px );
+    /* Hidden by default — toggled by JS. */
+    opacity:          0;
+    pointer-events:   none;
+    transform:        translateX( -50% ) translateY( 6px );
+    transition:       opacity 0.15s, transform 0.15s;
+}
+
+.cap-volume-wrap.cap-volume-open .cap-volume-slider-wrap {
+    opacity:        1;
+    pointer-events: auto;
+    transform:      translateX( -50% ) translateY( 0 );
+}
+
+/* Vertical range slider. */
+.cap-volume-slider {
+    -webkit-appearance: slider-vertical; /* Safari / older Chrome */
+    writing-mode:       vertical-lr;
+    direction:          rtl;             /* High value at top. */
+    width:              4px;
+    height:             80px;
+    cursor:             pointer;
+    accent-color:       #fff;
+    background:         transparent;
+}
+
+/* Firefox uses the orient attribute — no extra CSS needed beyond sizing. */
+
+/* ------------------------------------------------------------------
+   Shared: track drawer
+   ------------------------------------------------------------------ */
+.cap-track-drawer {
+    overflow:   hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+}
+
+.cap-track-drawer.cap-drawer-open {
+    max-height: 800px;
+}
+
+.cap-track-list {
+    list-style: none;
+    margin:     6px 0 0;
+    padding:    0;
+}
+
+/* ------------------------------------------------------------------
+   Error notice (admin-only)
+   ------------------------------------------------------------------ */
+.cap-player-error {
+    border:  1px solid #c00;
+    padding: 8px;
+    color:   #c00;
+}
+
+
+/* ==========================================================================
+   MINI PLAYER
+   ========================================================================== */
+
+/* Stage: square image container. max-width is driven by inline style from PHP. */
+.cap-player-mini .cap-mini-stage {
+    position:      relative;
+    width:         100%;
+    aspect-ratio:  1 / 1;
+    border-radius: 6px;
+    overflow:      hidden;
+    background-color: #111;
+    background-size:     cover;
+    background-position: center;
+}
+
+/* Circular SVG player centred on the image. */
+.cap-player-mini .mediPlayer {
+    position:  absolute;
+    top:       50%;
+    left:      50%;
+    transform: translate( -50%, -50% );
+    line-height: 0;
+    background:  none;
+}
+
+/* Control bar overlaid at the bottom of the stage. */
+.cap-mini-bar {
+    position:        absolute;
+    bottom:          0;
+    left:            0;
+    right:           0;
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    padding:         8px 10px;
+    background:      linear-gradient( to top, rgba(0,0,0,0.55) 0%, transparent 100% );
+}
+
+.cap-mini-bar-left,
+.cap-mini-bar-right {
+    display:     flex;
+    align-items: center;
+    gap:         2px;
+}
+
+/* Mini buttons sit on the image — always white. */
+.cap-player-mini .cap-btn {
+    color: #fff;
+}
+
+.cap-player-mini .cap-btn-active {
+    color: #a78bfa;
+}
+
+/* ------------------------------------------------------------------
+   Mini: track drawer items
+   ------------------------------------------------------------------ */
+.cap-player-mini .cap-track-item {
+    display:       flex;
+    align-items:   center;
+    gap:           10px;
+    padding:       10px 4px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    cursor:        pointer;
+    font-size:     0.9em;
+    user-select:   none;
+}
+
+.cap-player-mini .cap-track-item:last-child {
+    border-bottom: none;
+}
+
+.cap-player-mini .cap-track-item:hover {
+    background: rgba(0,0,0,0.04);
+}
+
+/* Name + progress bar stacked vertically. */
+.cap-player-mini .cap-track-name-wrap {
+    flex:           1;
+    display:        flex;
+    flex-direction: column;
+    gap:            5px;
+    min-width:      0;
+}
+
+.cap-player-mini .cap-track-name {
+    white-space:   nowrap;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+}
+
+.cap-player-mini .cap-track-item.cap-track-active .cap-track-name {
+    font-weight: 600;
+}
+
+.cap-player-mini .cap-track-progress {
+    height:        3px;
+    background:    rgba(0,0,0,0.1);
+    border-radius: 2px;
+    overflow:      hidden;
+}
+
+.cap-player-mini .cap-track-progress-bar {
+    height:        100%;
+    width:         0%;
+    background:    currentColor;
+    opacity:       0.5;
+    border-radius: 2px;
+    transition:    width 0.5s linear;
+}
+
+/* Duration label — shows countdown while playing, total when stopped. */
+.cap-player-mini .cap-track-duration {
+    flex-shrink:         0;
+    font-size:           0.78em;
+    font-variant-numeric: tabular-nums;
+    opacity:             0.55;
+    min-width:           3.2em;
+    text-align:          right;
+}
+
+.cap-player-mini .cap-track-item.cap-track-active .cap-track-duration {
+    opacity: 0.8;
+}
+
+.cap-player-mini .cap-track-play-btn {
+    flex-shrink: 0;
+    color:       inherit;
+    opacity:     0.6;
+}
+
+.cap-player-mini .cap-track-play-btn:hover {
+    opacity: 1;
+}
+
+.cap-player-mini .cap-track-play-btn svg {
+    width:  16px;
+    height: 16px;
+}
+
+
+/* ==========================================================================
+   FULL PLAYER
+   ========================================================================== */
+
+/* Side-by-side: album art (left) + controls column (right). */
+.cap-player-full .cap-full-main {
+    display:     flex;
+    align-items: stretch;
+    gap:         20px;
+}
+
+/* Album art — fixed width, never grows. */
+.cap-player-full .cap-full-art {
+    flex-shrink:   0;
+    width:         220px;
+    max-width:     300px;
+    border-radius: 4px;
+    overflow:      hidden;
+    background:    #111;
+}
+
+.cap-player-full .cap-full-art img {
+    display:    block;
+    width:      100%;
+    height:     auto;
+    object-fit: cover;
+}
+
+/* Controls column. */
+.cap-player-full .cap-full-player {
+    flex:           1;
+    display:        flex;
+    flex-direction: column;
+    gap:            14px;
+    min-width:      0;
+}
+
+/* Track title. */
+.cap-player-full .cap-now-playing {
+    margin:        0;
+    font-size:     1.05em;
+    font-weight:   700;
+    white-space:   nowrap;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+}
+
+/* ------------------------------------------------------------------
+   Full: seek bar row
+   ------------------------------------------------------------------ */
+.cap-full-seek {
+    display:     flex;
+    align-items: center;
+    gap:         8px;
+    margin-top:  auto;
+}
+
+.cap-time-current,
+.cap-time-total {
+    flex-shrink:          0;
+    font-size:            0.78em;
+    font-variant-numeric: tabular-nums;
+    opacity:              0.55;
+    min-width:            3em;
+}
+.cap-time-current { text-align: left;  }
+.cap-time-total   { text-align: right; }
+
+.cap-full-seekbar {
+    flex:          1;
+    position:      relative;
+    height:        4px;
+    background:    rgba(0,0,0,0.12);
+    border-radius: 2px;
+    cursor:        pointer;
+    transition:    height 0.15s;
+}
+
+.cap-full-seekbar:hover { height: 6px; }
+
+.cap-full-seekbar-fill {
+    position:      absolute;
+    left:          0;
+    top:           0;
+    height:        100%;
+    width:         0%;
+    background:    currentColor;
+    opacity:       0.75;
+    border-radius: 2px;
+    transition:    width 0.5s linear;
+    pointer-events: none;
+}
+
+/* ------------------------------------------------------------------
+   Full: single controls row — transport LEFT, secondary RIGHT
+   ------------------------------------------------------------------ */
+.cap-full-controls-row {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+}
+
+.cap-full-transport,
+.cap-full-secondary {
+    display:     flex;
+    align-items: center;
+    gap:         2px;
+}
+
+/* Play button slightly larger. */
+.cap-full-transport .cap-btn-play svg {
+    width:  26px;
+    height: 26px;
+}
+
+/* Responsive: stack vertically on narrow screens. */
+@media ( max-width: 575px ) {
+    .cap-player-full .cap-full-main {
+        flex-direction: column;
+        align-items:    stretch;
+    }
+    .cap-player-full .cap-full-art {
+        width:     100%;
+        max-width: 100%;
+    }
+    .cap-player-full .cap-full-player {
+        min-height: unset;
+    }
+    .cap-player-full .cap-full-seek {
+        margin-top: 0;
+    }
+}
+
+/* ------------------------------------------------------------------
+   Full: track drawer items (name + duration only, no progress bar)
+   ------------------------------------------------------------------ */
+.cap-player-full .cap-track-item {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             12px;
+    padding:         11px 4px;
+    border-bottom:   1px solid rgba(0,0,0,0.08);
+    cursor:          pointer;
+    font-size:       0.9em;
+    user-select:     none;
+}
+
+.cap-player-full .cap-track-item:last-child { border-bottom: none; }
+.cap-player-full .cap-track-item:hover      { background: rgba(0,0,0,0.04); }
+
+.cap-player-full .cap-track-item:focus-visible {
+    outline:        2px solid currentColor;
+    outline-offset: -2px;
+}
+
+.cap-player-full .cap-track-name {
+    flex:          1;
+    white-space:   nowrap;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+}
+
+.cap-player-full .cap-track-item.cap-track-active .cap-track-name {
+    font-weight: 600;
+}
+
+.cap-player-full .cap-track-duration {
+    flex-shrink:          0;
+    font-size:            0.78em;
+    font-variant-numeric: tabular-nums;
+    opacity:              0.55;
+}
+
+
+/* ==========================================================================
+   Circular SVG control styles (mini player only)
+   ========================================================================== */
+
+.mediPlayer .control {
+    opacity:        0;
+    pointer-events: none;
+    cursor:         pointer;
+}
+
+.mediPlayer .not-started .play,
+.mediPlayer .paused .play  { opacity: 0.5; }
+.mediPlayer .playing .pause { opacity: 0.5; }
+.mediPlayer .playing .play  { opacity: 0; }
+
+.mediPlayer .ended .stop {
+    opacity:        0.75;
+    pointer-events: none;
+}
+
+.mediPlayer .not-started .progress-bar,
+.mediPlayer .ended .progress-bar { display: none; }
+
+.mediPlayer .ended .progress-track { stroke-opacity: 0.75; }
+
+.mediPlayer .progress-bar,
+.mediPlayer .precache-bar {
+    transition:        stroke-dashoffset 500ms;
+    stroke-dasharray:  298.1371428256714;
+    stroke-dashoffset: 298.1371428256714;
+}
+
+.mediPlayer svg {
+    overflow: visible;
+    display:  block;
+}
