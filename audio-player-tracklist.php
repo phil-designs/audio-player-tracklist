@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Audio Player with Tracklist
- * Plugin URI:  http://www.phildesigns.com
+ * Plugin URI:  https://www.phildesigns.com
  * Description: An audio player with tracklist functionality, built via a custom post type and inserted via shortcode. Requires Advanced Custom Fields (ACF).
  * Version:     1.0.0
  * Author:      phil.designs | Phillip De Vita
